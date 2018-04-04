@@ -1,0 +1,516 @@
+/*RegisterLevel regLevel = new RegisterLevel ();
+			//regLevel.id_game = 1;
+			if (p.ListRegMap[0].ListRegLevel.Count > 0) {
+				regLevel.id_register_level = p.ListRegMap[0].ListRegLevel[p.ListRegMap[0].ListRegLevel.Count - 1].Id_register_level + 1;
+				//regLevel.level = p.ListRegMap[0].ListRegLevel [p.ListRegMap[0].ListRegLevel.Count - 1].id_level + 1;
+			} 
+			else 
+			{
+				regLevel.id_register_level = 1;
+				//regLevel.id_level = 1;
+			}
+			regLevel.score = PieceDrag.total_score_gral;
+			regLevel.count_stars = UIManager.countStars;
+
+			p.ListRegMap[0].ListRegLevel.Add (regLevel);
+
+			//p.ListRegMap[0].id_game = 1;
+			p.ListRegMap[0].Id_register_map= 1;
+			p.ListRegMap[0].Map = new Map();
+			p.ListRegMap[0].Score_map += PieceDrag.total_score_gral;
+
+			levelRegisterJson = JsonMapper.ToJson (p.ListRegMap[0].ListRegLevel);
+			File.WriteAllText (Application.streamingAssetsPath + "/RegistroPantalla.json", "{" + "\"RegistroPantalla\"" + ": " + levelRegisterJson.ToString () + " }");
+
+			mapRegisterJson = JsonMapper.ToJson (p.ListRegMap[0]);
+			File.WriteAllText (Application.streamingAssetsPath + "/RegistroMapa.json", "{" + "\"RegistroMapa\"" + ": [" + mapRegisterJson.ToString () + "] }");
+
+			levelRegister_path =  Application.streamingAssetsPath + "/RegistroPantalla.json";
+			levelRegister_data = File.ReadAllText(levelRegister_path);
+			levelRegisterJson = JsonMapper.ToObject (levelRegister_data);
+
+			Level level = new Level ();
+			//level.Id = (int)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["id_game"];
+	        //level.id_map = (int)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["id_map"];
+			level.Id_level = (int)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["id_level"];
+			level.Name = (string)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["name"];
+			level.X = (float)((double)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["x"]);
+			level.Y = (float)((double)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["y"]);
+			level.X_exp = (float)((double)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["x_exp"]);
+			level.Y_exp = (float)((double)levelJson ["Pantalla"] [levelRegisterJson["RegistroPantalla"].Count] ["y_exp"]);
+
+			this.ShowStars (levelGo,UIManager.countStars);
+			GameObject selectedLevel = GameObject.Find ("SelectedLevel");
+			Image selectedLevelImage = selectedLevel.GetComponent<Image> ();
+			selectedLevelImage.enabled = false;
+
+			levelGo++;
+			picture = GameObject.Find("Frame");
+			Animator picture_anim = picture.GetComponent<Animator> ();
+			picture_anim.Play ("MoveToLevel" + levelGo.ToString());
+
+			GameObject levelNx = GameObject.Find ("Level" + levelGo);
+			Button buttonLevel = levelNx.GetComponent<Button> ();
+			buttonLevel.interactable = true;
+
+			RectTransform rectPost = selectedLevel.GetComponent<RectTransform> ();
+			Vector2 postSelect = new Vector2 (level.X, level.Y);
+			rectPost.anchoredPosition = postSelect;
+			selectedLevelImage.enabled = true;
+
+			GameObject explosion = GameObject.Find ("Explosion");
+			RectTransform rectExp = explosion.GetComponent<RectTransform> ();
+			Vector2 postExp = new Vector2 (level.X_exp, level.Y_exp);
+			rectExp.anchoredPosition = postExp;
+
+			StartCoroutine ("CoRoutineShowExplosion");
+
+			UIManager.goNext = false;*/
+			
+					/*p.Ingot = new Ingot ();
+		p.Heart = new Heart ();
+		p.Heart.List_next_life = new List<NextLife> ();
+		int year = 0;
+		int month = 0;
+		int day = 0;
+		int hour = 0;
+		int minute = 0;
+		int second = 0;
+		string dateString = "";
+
+		//p.id_game = (int)playerJson ["Jugador"] [0] ["id_game"];
+		p.Name = (string)playerJson ["Jugador"] [0] ["name"];
+		p.Id_player = (int)playerJson ["Jugador"] [0] ["id_player"];
+		//p.current_level = (int)playerJson ["Jugador"] [0] ["current_level"];
+
+		picture = GameObject.Find ("Photo");
+		Image photo = picture.GetComponent<Image> ();
+
+		if (UIManagerMenu.typeConnection == "facebook") 
+		{
+			photo.sprite = Sprite.Create (FBScript.gTexture, new Rect (0, 0, 30, 30), new Vector2 (0, 0));
+		} 
+		else 
+		{
+			photo.sprite = Resources.Load<Sprite> ("Profiles/Fox") as Sprite;
+		}
+
+		p.Picture = photo.sprite;
+
+		heart_path = Application.streamingAssetsPath + "/Corazon.json";
+		heart_data = File.ReadAllText(heart_path);
+		heartJson = JsonMapper.ToObject (heart_data);
+
+		//p.heart.id_game = (int)heartJson ["Corazon"] [0] ["id_game"];
+		//p.heart.id_player = (int)heartJson ["Corazon"] [0] ["id_player"];
+		p.Heart.Count_lifes = (int)heartJson ["Corazon"] [0] ["count_lifes"];
+		p.Heart.Minutes = (int)heartJson ["Corazon"] [0] ["minutes"];
+		p.Heart.Seconds = (int)heartJson ["Corazon"] [0] ["seconds"];
+
+		p.Heart.Minutes_per_life = (int)heartJson ["Corazon"] [0] ["minutes_per_life"];
+		p.Heart.IsInfinite = (bool)heartJson ["Corazon"] [0] ["isInfinite"];
+
+		if (((string)heartJson ["Corazon"] [0] ["time_infinite"]) == "") {
+			p.Heart.Time_infinite = new DateTime();
+		} 
+		else 
+		{
+			dateString = (string)heartJson ["Corazon"] [0] ["time_infinite"];
+			month = int.Parse (dateString.Substring (0, 2));
+			day = int.Parse (dateString.Substring (3, 2));
+			year = int.Parse (dateString.Substring (6, 4));
+			hour = int.Parse (dateString.Substring (11, 2));
+			minute = int.Parse (dateString.Substring (14, 2));
+			second = int.Parse (dateString.Substring (17, 2));
+			p.Heart.Time_infinite = new DateTime (year, month, day, hour, minute, second);
+		}
+
+		nextLife_path = Application.streamingAssetsPath + "/ProxVida.json";
+		nextLife_data = File.ReadAllText(nextLife_path);
+		nextLifeJson = JsonMapper.ToObject (nextLife_data);
+
+		if ((p.Heart.List_next_life.Count == 0 || p.Heart.List_next_life == null) && nextLife_data!="") {
+		for (int i = 0; i < nextLifeJson ["ProxVida"].Count; i++) {
+				NextLife next = new NextLife ();
+
+				//next.id_player = (int)nextLifeJson ["ProxVida"] [i] ["id_player"];
+				//next.id_heart = (int)nextLifeJson ["ProxVida"] [i] ["id_heart"];
+
+				if (((string)nextLifeJson ["ProxVida"] [i] ["dateNextLife"]) == "") {
+					next.Date_next_life = new DateTime ();
+				} else {
+					dateString = (string)nextLifeJson ["ProxVida"] [i] ["dateNextLife"];
+					month = int.Parse (dateString.Substring (0, 2));
+					day = int.Parse (dateString.Substring (3, 2));
+					year = int.Parse (dateString.Substring (6, 4));
+					hour = int.Parse (dateString.Substring (11, 2));
+					minute = int.Parse (dateString.Substring (14, 2));
+					second = int.Parse (dateString.Substring (17, 2));
+					next.Date_next_life = new DateTime (year, month, day, hour, minute, second);
+				}
+
+				p.Heart.List_next_life.Add (next);
+			}
+		}
+		ingot_path = Application.streamingAssetsPath + "/Lingote.json";
+		ingot_data = File.ReadAllText(ingot_path);
+		ingotJson = JsonMapper.ToObject (ingot_data);
+
+		//p.Ingot.id_game = (int)ingotJson ["Lingote"] [0] ["id_game"];
+		//p.ingot.id_player = (int)ingotJson ["Lingote"] [0] ["id_player"];
+		p.Ingot.Id_ingot = (int)ingotJson ["Lingote"] [0] ["id_ingot"];
+		p.Ingot.Coin_count= (int)ingotJson ["Lingote"] [0] ["coin_count"];*/
+
+		/*message_path = Application.streamingAssetsPath + "/Mensaje.json";
+		message_data = File.ReadAllText(message_path);
+		messageJson = JsonMapper.ToObject (message_data);*/
+
+		/*typeBonus_path = Application.streamingAssetsPath + "/TipoBonus.json";
+		typeBonus_data = File.ReadAllText(typeBonus_path);
+		typeBonusJson = JsonMapper.ToObject (typeBonus_data);
+
+		for (int i = 0; i < typeBonusJson["TipoBonus"].Count; i++) 
+		{
+			BonusType bonusType = new BonusType ();
+
+			bonusType.Id_type_bonus = (int)typeBonusJson ["TipoBonus"] [i] ["id_type_bonus"];
+			bonusType.Name = (string)typeBonusJson ["TipoBonus"] [i] ["name"];
+			bonusType.Description = (string)typeBonusJson ["TipoBonus"] [i] ["description"];
+
+			listBonusType.Add (bonusType);
+		}
+			
+		bonus_path = Application.streamingAssetsPath + "/Bonus.json";
+		bonus_data = File.ReadAllText(bonus_path);
+		bonusJson = JsonMapper.ToObject (bonus_data);
+
+		for (int i = 0; i < bonusJson["Bonus"].Count; i++) 
+		{
+			Bonus bonus = new Bonus ();
+
+			//bonus.id_player = (int)bonusJson ["Bonus"] [i] ["id_player"];
+			bonus.Id_bonus = (int)bonusJson ["Bonus"] [i] ["id_bonus"];
+			//bonus.id_type_bonus = (int)bonusJson ["Bonus"] [i] ["id_type_bonus"];
+			bonus.BonusType = this.SearchBonusTyperPerId((int)bonusJson ["Bonus"] [i] ["id_type_bonus"]);
+			bonus.File = (string)bonusJson ["Bonus"] [i] ["file"];
+			bonus.Count_bonus = (int)bonusJson ["Bonus"] [i] ["count_bonus"];
+
+			p.ListBonus.Add (bonus);
+		}
+
+		GameObject circleIngot = GameObject.Find ("CountIngot");
+		Text ingotText = circleIngot.GetComponent<Text> ();
+		ingotText.text = p.Ingot.Coin_count.ToString ();
+
+		bool stop = false;
+		int length = p.Heart.List_next_life.Count;
+
+		if (p.Heart.List_next_life.Count > 0) 
+		{
+			for (int i = 0; i < length && stop == false; i++) 
+			{
+				if (DateTime.Compare (DateTime.Now, p.Heart.List_next_life[0].Date_next_life) < 0) 
+				{
+					startTime = (float)((p.Heart.List_next_life [0].Date_next_life - DateTime.Now).Minutes * 1.0 * 60);
+					stop = true;
+				} 
+				else 
+				{
+					p.Heart.Count_lifes++;
+					p.Heart.List_next_life.RemoveAt (0);
+
+					if (p.Heart.Count_lifes == 5) {
+						File.WriteAllText (Application.streamingAssetsPath + "/ProxVida.json", "");
+					} else {
+						nextLifeJson = JsonMapper.ToJson (p.Heart.List_next_life);
+						File.WriteAllText (Application.streamingAssetsPath + "/ProxVida.json", "{" + "\"ProxVida\"" + ": " + nextLifeJson.ToString () + " }");
+					}
+
+					heartJson = JsonMapper.ToJson (p.Heart);
+					File.WriteAllText (Application.streamingAssetsPath + "/Corazon.json", "{" + "\"Corazon\"" + ": [" + heartJson.ToString () + "] }");
+				}
+			}
+		} 
+		else {
+			if (p.Heart.IsInfinite == true) 
+			{
+				if (DateTime.Compare (DateTime.Now, p.Heart.Time_infinite) < 0) 
+				{
+					startTime = (float)((p.Heart.Time_infinite- DateTime.Now).TotalHours * 1.0 * 60 * 60);
+				} 
+				else 
+				{
+					p.Heart.Count_lifes = 5;
+					p.Heart.IsInfinite= false;
+					p.Heart.Time_infinite = new DateTime ();
+
+					heartJson = JsonMapper.ToJson (p.Heart);
+					File.WriteAllText (Application.streamingAssetsPath + "/Corazon.json", "{" + "\"Corazon\"" + ": [" + heartJson.ToString () + "] }");
+				}
+			} 
+			else 
+			{
+				startTime = 1200f;
+			}
+		}
+		GameObject countLife = GameObject.Find("CountLife");
+		Text countLifeText = countLife.GetComponent<Text> ();
+		countLifeText.text = p.Heart.Count_lifes.ToString();
+
+		map_path =  Application.streamingAssetsPath + "/Mapa.json";
+		map_data = File.ReadAllText(map_path);
+		mapJson = JsonMapper.ToObject (map_data);
+
+		level_path =  Application.streamingAssetsPath + "/Pantalla.json";
+		level_data = File.ReadAllText(level_path);
+		levelJson = JsonMapper.ToObject (level_data);
+
+		mapRegister_path =  Application.streamingAssetsPath + "/RegistroMapa.json";
+		mapRegister_data = File.ReadAllText(mapRegister_path);
+		mapRegisterJson = JsonMapper.ToObject (mapRegister_data);
+
+		levelRegister_path =  Application.streamingAssetsPath + "/RegistroPantalla.json";
+	    levelRegister_data = File.ReadAllText(levelRegister_path);
+		levelRegisterJson = JsonMapper.ToObject (levelRegister_data);
+
+		GameObject selectLevel = GameObject.Find ("SelectedLevel");
+		RectTransform rectPost = selectLevel.GetComponent<RectTransform> ();
+
+		GameObject explosion = GameObject.Find ("Explosion");
+		Image explosionImage = explosion.GetComponent<Image> ();
+		RectTransform rectExp = explosion.GetComponent<RectTransform> ();
+
+		RegisterMap regMap = new RegisterMap ();
+		p.ListRegMap = new List<RegisterMap> ();
+
+		if (mapRegister_data !="" && levelRegister_data != "") 
+		{
+			for(int i = 0; i < mapRegisterJson["RegistroMapa"].Count ;i++)
+			{
+				//regMap.id_game = (int)mapRegisterJson ["RegistroMapa"] [i] ["id_game"];
+				regMap.id_register_map = (int)mapRegisterJson ["RegistroMapa"] [i] ["id_register_map"];
+				regMap.score_map = (int)mapRegisterJson ["RegistroMapa"] [i] ["score_map"];
+				//only for prove, I must to repare it later.
+				regMap.map = new Map();
+				regMap.map.Id_map = 1;
+				regMap.map.Name = "Mapa Medieval";
+				p.ListRegMap.Add (regMap);
+			}
+
+			RegisterLevel regLevel = new RegisterLevel ();
+
+			for(int i = 0; i < levelRegisterJson["RegistroPantalla"].Count ;i++)
+			{
+				//regLevel.id_game = (int)levelRegisterJson["RegistroPantalla"][i]["id_game"];
+				regLevel.id_register_level = (int)levelRegisterJson["RegistroPantalla"][i]["id_register_level"];
+				//regLevel.id_level = (int)levelRegisterJson["RegistroPantalla"][i]["id_level"];
+				regLevel.score = (int)levelRegisterJson["RegistroPantalla"][i]["score"];
+				regLevel.count_stars = (int)levelRegisterJson["RegistroPantalla"][i]["count_stars"];
+				p.ListRegMap[0].ListRegLevel.Add(regLevel);
+			}
+				
+			map.ListLevel = new List<Level> ();
+			map.Id_map = (int)mapJson ["Mapa"] [0] ["id_map"];
+			//map.id_game = (int)mapJson ["Mapa"] [0] ["id_game"];
+			map.Name = (string)mapJson ["Mapa"] [0] ["name"];
+			map.Description = (string)mapJson ["Mapa"] [0] ["description"];
+
+			for (int i = 0; i < levelJson["Pantalla"].Count; i++) 
+			{
+				Level level = new Level ();
+				
+				//level.id_game = (int)levelJson ["Pantalla"] [i] ["id_game"];
+				//level.id_map = (int)levelJson ["Pantalla"] [i] ["id_map"];
+				level.Id_level = (int)levelJson ["Pantalla"] [i] ["id_level"];
+				level.Name = (string)levelJson ["Pantalla"] [i] ["name"];
+				level.X = (float)((double)levelJson ["Pantalla"] [i] ["x"]);
+				level.Y = (float)((double)levelJson ["Pantalla"] [i] ["y"]);
+				level.X_exp= (float)((double)levelJson ["Pantalla"] [i] ["x_exp"]);
+				level.Y_exp = (float)((double)levelJson ["Pantalla"] [i] ["y_exp"]);
+				level.X_frame = (float)((double)levelJson ["Pantalla"] [i] ["x_frame"]);
+				level.Y_frame = (float)((double)levelJson ["Pantalla"] [i] ["y_frame"]);
+
+				if (level.Id_level >= (int)levelJson ["Pantalla"] [levelRegisterJson ["RegistroPantalla"].Count] ["id_level"]) {
+					if (level.Id_level == (int)levelJson ["Pantalla"] [levelRegisterJson ["RegistroPantalla"].Count] ["id_level"]) {
+
+						levelGo = level.Id_level;
+
+						Vector2 postSelect = new Vector2 (level.X, level.Y);
+						rectPost.anchoredPosition = postSelect;
+
+						Vector2 postExplosion = new Vector2 (level.X_exp, level.Y_exp);
+						rectExp.anchoredPosition = postExplosion;
+						explosionImage.enabled = false;
+						StartCoroutine ("CoRoutineShowExplosion");
+
+						picture = GameObject.Find("Frame");
+						Animator picture_anim = picture.GetComponent<Animator> ();
+						picture_anim.Play ("StayInLevel2");
+					} 
+					else 
+					{
+						GameObject levelNx = GameObject.Find ("Level" + level.Id_level);
+						Button buttonLevel = levelNx.GetComponent<Button> ();
+						buttonLevel.interactable = false;
+					}
+				} 
+				else 
+				{
+					levelGo = level.Id_level;
+					this.ShowStars (levelGo,p.ListRegMap[0].ListRegLevel[i].count_stars);
+				}
+
+				map.ListLevel.Add (level);
+			}
+				
+		} 
+		else 
+		{
+			//regMap.id_game = 1;
+			regMap.id_register_map = 1;
+			regMap.map = new Map ();
+			regMap.map.Id_map = 1;
+			regMap.score_map = 0;
+			levelGo = 1;
+			p.ListRegMap.Add (regMap);
+
+			Vector2 postSelect = new Vector2 (-51.5319f, 3.598022f);
+			rectPost.anchoredPosition = postSelect;
+
+			for(int i = 2; i < 31; i++)
+			{
+				GameObject levelNx = GameObject.Find ("Level" + i);
+				Button buttonLevel = levelNx.GetComponent<Button> ();
+				buttonLevel.interactable = false;
+			}
+		}
+
+		stateLevel_path =  Application.streamingAssetsPath + "/EstadoPantalla.json";
+		stateLevel_data = File.ReadAllText(stateLevel_path);
+		stateLevelJson = JsonMapper.ToObject (stateLevel_data);
+
+		for(int i = 0; i < stateLevelJson["EstadoPantalla"].Count ;i++)
+		{
+			LevelState sl = new LevelState ();
+			//sl.id_game = (int)stateLevelJson["EstadoPantalla"][i]["id_game"];
+			sl.Level.Id_level = (int)stateLevelJson["EstadoPantalla"][i]["id_level"];
+			//sl.id_player = (int)stateLevelJson["EstadoPantalla"][i]["id_player"];
+			sl.Id_state = (int)stateLevelJson["EstadoPantalla"][i]["id_state"];
+			p.ListStateLevel.Add(sl);
+		}
+
+		achievement_path =  Application.streamingAssetsPath + "/Logro.json";
+		achievement_data = File.ReadAllText(achievement_path);
+		achievementJson = JsonMapper.ToObject (achievement_data);
+		p.ListAchievements = new List<Achievement> ();
+
+		for(int i = 0; i < achievementJson["Logro"].Count ;i++)
+		{
+			Achievement ach = new Achievement ();
+			//ach.id_game = (int)achievementJson["Logro"][i]["id_game"];
+			ach.Id_achievement = (int)achievementJson["Logro"][i]["id_achievement"];
+			ach.Image_file = (string)achievementJson["Logro"][i]["image_file"];
+			ach.Title = (string)achievementJson["Logro"][i]["title"];
+			ach.Description = (string)achievementJson["Logro"][i]["description"];
+			ach.Count = (int)achievementJson["Logro"][i]["count"];
+			ach.Max_count = (int)achievementJson["Logro"][i]["max_count"];
+			ach.Percentaje = (double)achievementJson["Logro"][i]["percentaje"];
+			ach.Prize = (int)achievementJson["Logro"][i]["prize"];
+			ach.Width = (double)achievementJson["Logro"][i]["width"];
+			ach.Height = (double)achievementJson["Logro"][i]["height"];
+			ach.Loc_x = (double)achievementJson["Logro"][i]["loc_x"];
+			ach.Is_earned = (bool)achievementJson["Logro"][i]["is_earned"];
+			p.ListAchievements.Add (ach);
+		}
+			
+		GetWonPrize ();*/
+		
+			/*LoadMap.p.Heart.Count_lifes++;
+					LoadMap.p.Heart.List_next_life.RemoveAt (0);
+					nextLifeJson = JsonMapper.ToJson (LoadMap.p.Heart.List_next_life);
+					File.WriteAllText (Application.streamingAssetsPath + "/ProxVida.json", "{" + "\"ProxVida\"" + ": " + nextLifeJson.ToString () + " }"); 
+					heartJson = JsonMapper.ToJson (LoadMap.p.Heart);
+					File.WriteAllText (Application.streamingAssetsPath + "/Corazon.json", "{" + "\"Corazon\"" + ": [" + heartJson.ToString () + "] }");
+
+					if (LoadMap.p.Heart.Count_lifes < 5) {
+						startTime = Time.time + 1200f;
+						minutes = "";
+						seconds = "";
+					} 
+					else 
+					{
+						File.WriteAllText (Application.streamingAssetsPath + "/ProxVida.json", ""); 
+					}*/
+					
+					if (first_open == true)
+					{
+						startTime =  startTime + Time.time;
+						first_open = false;
+					}
+
+					float t = startTime - Time.time;
+
+					minutes = ((int)t / 60).ToString ();
+					seconds = (t % 60).ToString ("f0");
+
+					if (int.Parse (seconds) == 60) {
+						seconds = (int.Parse (seconds) - 1).ToString ();
+					}
+
+					if (int.Parse (minutes) < 10) {
+						minutes = "0" + minutes;
+					}
+
+					if (int.Parse (seconds) < 10) {
+						seconds = "0" + seconds;
+					}
+					
+					new Persistence ().UpdateListAchievements (UIManagerMenu.g.Id_game, UIManagerMenu.g.P.Id_player, UIManagerMenu.g.P.ListAchievements);
+					
+						ingotJson = JsonMapper.ToJson (p.Ingot);
+			File.WriteAllText (Application.streamingAssetsPath + "/Lingote.json", "{" + "\"Lingote\"" + ": [" + ingotJson.ToString () + "] }");
+			
+			board_path = Application.streamingAssetsPath + "/Tablero.json";
+		board_jsonString = File.ReadAllText(board_path);
+		board_itemData = JsonMapper.ToObject (board_jsonString);
+
+		square_path = Application.streamingAssetsPath + "/Cuadrado.json";
+		square_jsonString = File.ReadAllText(square_path);
+		square_itemData = JsonMapper.ToObject (square_jsonString);
+	
+		//board.id_game = (int)board_itemData ["Tablero"] [0] ["id_juego"];
+		//board.id_map = (int)board_itemData ["Tablero"] [0] ["id_mapa"];
+		//board.id_screen = (int)board_itemData ["Tablero"] [0] ["id_pantalla"];
+		board.Id_board = (int)board_itemData ["Tablero"] [0] ["id_tablero"];
+		//board.type_size = (int)board_itemData ["Tablero"] [0] ["type_size"];
+
+		//CountSizeBoard (board.Board_type.Id_board_type);
+
+		for (int i = 0; i < 81; i++) {
+			
+			Square s = new Square ();
+			//s.id_game = (int)square_itemData ["Cuadrado"] [i] ["id_juego"];
+			//s.id_map = (int)square_itemData ["Cuadrado"] [i] ["id_mapa"];
+			//s.id_screen = (int)square_itemData ["Cuadrado"] [i] ["id_pantalla"];
+			//s.id_board = (int)square_itemData ["Cuadrado"] [i] ["id_tablero"];
+			s.Id_square = (int)square_itemData ["Cuadrado"] [i] ["id_cuadrado"];
+			s.Square_type.Id_type_square = (int)square_itemData ["Cuadrado"] [i] ["id_tipo_cuadrado"];
+			s.Coordinate_x_border = (float)((double) square_itemData ["Cuadrado"] [i] ["coordenada_x_borde"]);
+			s.Coordinate_y_border = (float)((double)square_itemData ["Cuadrado"] [i] ["coordenada_y_borde"]);
+			s.Coordinate_x_center = (float)((double)square_itemData ["Cuadrado"] [i] ["coordenada_x_centro"]);
+			s.Coordinate_y_center = (float)((double)square_itemData ["Cuadrado"] [i] ["coordenada_y_centro"]);
+			s.Location_x = (int)square_itemData ["Cuadrado"] [i] ["ubicacion_x"];
+			s.Location_y = (int)square_itemData ["Cuadrado"] [i] ["ubicacion_y"];
+			s.IsOcupated = false;
+			s.Game_square = null;
+
+			//board.square_list.Add(s);
+		}
+
+		piece_path = Application.streamingAssetsPath + "/Ficha.json";
+		piece_jsonString = File.ReadAllText(piece_path);
+		piece_itemData = JsonMapper.ToObject (piece_jsonString);
+			
+		bonusNine = LoadMap.p.ListBonus [0].Count_bonus;
+		bonusPerThree = LoadMap.p.ListBonus [1].Count_bonus;
+		bonusUndo = LoadMap.p.ListBonus [2].Count_bonus;

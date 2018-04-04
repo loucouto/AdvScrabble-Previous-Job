@@ -1,0 +1,10 @@
+[
+	{
+		"id_juego" : 1,
+		"nombre" : "Adventure Scrabble",
+		"ubicacion" : "no tiene",
+		"archivo" : "no tiene",
+		"fecha_hecho" : "2017-02-11",
+		"fecha_baja" : null
+	}
+]
